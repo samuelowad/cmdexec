@@ -140,3 +140,41 @@ func FindCommand(commands []fileStruct, name string) string {
 
 	return ""
 }
+
+func DeleteCommand(name string) error {
+	checkFileExists(path)
+	f, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	// Decode the file into a slice of fileStructs
+	var arr []fileStruct
+	err = json.NewDecoder(f).Decode(&arr)
+	if err != nil {
+		return err
+	}
+
+	// Find the index of the element with the matching name
+	var indexToDelete int
+	for i, elem := range arr {
+		if elem.Name == name {
+			indexToDelete = i
+			break
+		}
+	}
+
+	// Remove the element from the slice
+	arr = append(arr[:indexToDelete], arr[indexToDelete+1:]...)
+
+	// Open the file in write mode using os.Create
+	f, err = os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	// Encode the modified slice and write it to the file
+	return json.NewEncoder(f).Encode(arr)
+}
