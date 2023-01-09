@@ -1,1 +1,1 @@
-{"Name":"name","Command":" sudo ls -l \u0026\u0026 sudo cat main.go"}
+[{"Name":"name","Command":" sudo ls -l \u0026\u0026 sudo cat main.go"},{"name":"testa","command":"sudo whoami"},{"name":"test1","command":"sudo who"}]
